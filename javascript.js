@@ -23,31 +23,40 @@ let getComputerChoice = () => {
 
 //Create function with two parameters, playerInput and computerSelection, that plays a round
 let playRound = (playerInput, computerSelection) => {
-    //Set computerSelection to the result of getComputerChoice
-    //let computerSelection = getComputerChoice();********
     //Set playerInput arguement to new variable playerSelection that converts to lower case to bypass case sensitivity 
     let playerSelection = playerInput.toLowerCase();
     console.log( "The computer chose: " + computerSelection);
     //Create possible win and loss conditions as per rock/paper/scissors game's rules
-    if (computerSelection === "Rock" & playerSelection === "rock") {
-        return "You both chose Rock! It's a tie!"
+    if (computerSelection.toLowerCase() === playerSelection) {
+        return `You both chose ${computerSelection}! It's a tie!`
     } else if (computerSelection === "Rock" & playerSelection === "paper") {
         return "You win! Paper beats Rock!"
     } else if (computerSelection === "Rock" & playerSelection === "scissors") {
         return "You lose! Rock beats Scissors!"
-    } else if (computerSelection === "Paper" & playerSelection === "paper") {
-        return "You both chose Paper! It's a tie!"
     } else if (computerSelection === "Paper" & playerSelection === "rock") {
         return "You lose! Paper beats Rock!"
     } else if (computerSelection === "Paper" & playerSelection === "scissors") {
         return "You win! Scissors beats Paper!"
-    } else if (computerSelection === "Scissors" & playerSelection === "scissors") {
-        return "You both chose Scissors! It's a tie!"
-    } else if ( computerSelection === "Scissors" & playerSelection === "rock") {
+    }  else if ( computerSelection === "Scissors" & playerSelection === "rock") {
         return "You win! Rock beats Scissors!"
     } else if ( computerSelection === "Scissors" & playerSelection === "paper") {
         return "You lose! Scissors beats paper!"
     }
+}
+
+//Create function checkIfPlayerChoiceValid with two parameters: one for playerSelection, one for initialValidityOfPlayerChoice to check if player input is valid
+let checkIfPlayerChoiceValid = (playerSelection, initialValidityOfPlayerChoice) => {
+    //Create var isNewChoiceValid and init to initialValidityOfPlayerChoice
+    let isNewChoiceValid = initialValidityOfPlayerChoice;
+    //Create if conditionals that will check to see if playerSelection is either 'rock' 'paper' or 'scissors' and will return isNewChoiceValid as true if so; else
+    //return false
+    if (playerSelection === "rock") {
+        return isNewChoiceValid = true;  
+      } else if (playerSelection === "paper") {
+          return isNewChoiceValid = true;
+      } else if (playerSelection === "scissors") {
+          return isNewChoiceValid = true;
+      } return false;
 }
 
 let playGame = () => {
@@ -59,30 +68,15 @@ let playGame = () => {
     for (let i = 0; i < 5; i++) {
         //Prompt user to input a string of rock, paper, or scissors and store value as lower case string (to bypass case sensitivity) in playerSelection
         let playerSelection = prompt("Please type Rock, Paper, or Scissors: ").toLowerCase();
-        console.log(playerSelection);
         //Declare var isPlayerSelectionValid and initialize to false
         let isPlayerSelectionValid = false;
-        console.log("is valid: " + isPlayerSelectionValid)
         //Check to see if playerSelection is valid
-        if (playerSelection === "rock") {
-          isPlayerSelectionValid = true;  
-        } else if (playerSelection === "paper") {
-            isPlayerSelectionValid = true;
-        } else if (playerSelection === "scissors") {
-            isPlayerSelectionValid = true;
-        }
-        console.log("is valid: " + isPlayerSelectionValid)
+        isPlayerSelectionValid = checkIfPlayerChoiceValid(playerSelection, isPlayerSelectionValid);
         
-        //Create while loop that prompts user for valid input
+        //Create while loop that prompts user for valid input if isPlayerSelectionValid is false
         while (isPlayerSelectionValid === false) {
             playerSelection = prompt('No, you goofnut! You can only type Rock, Paper, or Scissors.').toLowerCase();
-            if (playerSelection === "rock") {
-                isPlayerSelectionValid = true;  
-              } else if (playerSelection === "paper") {
-                  isPlayerSelectionValid = true;
-              } else if (playerSelection === "scissors") {
-                  isPlayerSelectionValid = true;
-              }
+            isPlayerSelectionValid = checkIfPlayerChoiceValid(playerSelection, isPlayerSelectionValid);
         }
         //Display current round number
         console.log(`Round ${i + 1}:`)
