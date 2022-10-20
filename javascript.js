@@ -21,27 +21,71 @@ let getComputerChoice = () => {
     }
 }
 
-//Create function with two parameters, playerInput and computerSelection, that plays a round
-let playRound = (playerInput, computerSelection) => {
-    //Set playerInput arguement to new variable playerSelection that converts to lower case to bypass case sensitivity 
-    let playerSelection = playerInput.toLowerCase();
-    console.log( "The computer chose: " + computerSelection);
-    //Create possible win and loss conditions as per rock/paper/scissors game's rules
-    if (computerSelection.toLowerCase() === playerSelection) {
-        return `You both chose ${computerSelection}! It's a tie!`
-    } else if (computerSelection === "Rock" & playerSelection === "paper") {
-        return "You win! Paper beats Rock!"
-    } else if (computerSelection === "Rock" & playerSelection === "scissors") {
-        return "You lose! Rock beats Scissors!"
-    } else if (computerSelection === "Paper" & playerSelection === "rock") {
-        return "You lose! Paper beats Rock!"
-    } else if (computerSelection === "Paper" & playerSelection === "scissors") {
-        return "You win! Scissors beats Paper!"
-    }  else if ( computerSelection === "Scissors" & playerSelection === "rock") {
-        return "You win! Rock beats Scissors!"
-    } else if ( computerSelection === "Scissors" & playerSelection === "paper") {
-        return "You lose! Scissors beats paper!"
+let initializeGame = () => {
+    playerScore.textContent = 0;
+    computerScore.textContent = 0;
+    ties.textContent = 0;
+    document.querySelector(".paper").style.display = "";  
+    document.querySelector(".scissors").style.display = "";
+
+}
+
+//NEED TO FINISH RESTART FUNCTION AND CLEAN UP CODE
+
+let restartGamePrompt = () => {
+    document.querySelector(".paper").style.display = "none";  
+    document.querySelector(".scissors").style.display = "none";
+    let restartButton = document.querySelector(".rock");
+    restartButton.textContent = "Play Again";
+    restartButton.addEventListener("click", initializeGame())
+
+}
+
+let checkIfGameOver = (playerScore, computerScore) => {
+
+    if (playerScore == 5) {
+        results.textContent = `YOU WIN!!`;
+    } else if (computerScore == 5) {
+        results.textContent = `Sorry, you lost.`;
     }
+    if (playerScore == 5 || computerScore == 5) {
+        restartGamePrompt();
+    }
+}
+
+//Create function with two parameters, playerInput and computerSelection, that plays a round
+let playRound = (playerInput) => {
+    //Create variable computerSelection that stores value of getComputerChoice
+    console.log(`YOU CHOSE: ${playerInput}`)
+    let computerSelection = getComputerChoice();
+    console.log( "The computer chose: " + computerSelection);
+    
+    //Create possible win and loss conditions as per rock/paper/scissors game's rules
+    if (computerSelection.toLowerCase() === playerInput) {
+         results.textContent =`You both chose ${computerSelection}! It's a tie!`;
+    } else if (computerSelection === "Rock" & playerInput === "paper") {
+        results.textContent ="You win! Paper beats Rock!"
+    } else if (computerSelection === "Rock" & playerInput === "scissors") {
+        results.textContent ="You lose! Rock beats Scissors!"
+    } else if (computerSelection === "Paper" & playerInput === "rock") {
+        results.textContent ="You lose! Paper beats Rock!"
+    } else if (computerSelection === "Paper" & playerInput === "scissors") {
+        results.textContent ="You win! Scissors beats Paper!"
+    }  else if ( computerSelection === "Scissors" & playerInput === "rock") {
+        results.textContent ="You win! Rock beats Scissors!"
+    } else if ( computerSelection === "Scissors" & playerInput === "paper") {
+        results.textContent ="You lose! Scissors beats paper!"
+    }
+    if (results.textContent.includes("win")) {
+        playerScore.textContent = parseInt(playerScore.textContent) + 1
+       } else if (results.textContent.includes("lose")) {
+        computerScore.textContent = parseInt(computerScore.textContent) + 1;
+       } else { 
+        ties.textContent = parseInt(ties.textContent) + 1;
+       }
+
+       console.log(`results value at end of round: ${results}`)
+    checkIfGameOver(playerScore.textContent, computerScore.textContent);
 }
 
 //Create function checkIfPlayerChoiceValid with two parameters: one for playerSelection, one for initialValidityOfPlayerChoice to check if player input is valid
@@ -109,4 +153,26 @@ let playGame = () => {
     }
 }
 
-playGame();
+let initializeResults = () => {
+    let results = document.querySelector(".results");
+    return results;
+}
+
+let initializePlayerChoices = () => {
+    let playerChoices = document.querySelectorAll('#playerChoice');
+    playerChoices.forEach(choice => choice.addEventListener('click', () => playRound(choice.className)));
+    return playerChoices;
+}
+
+
+
+let results = document.querySelector(".results");
+
+let playerChoices = document.querySelectorAll('#playerChoice');
+playerChoices.forEach(choice => choice.addEventListener('click', () => playRound(choice.className)));
+
+let computerScore = document.querySelector(".computerScore");
+let playerScore = document.querySelector(".playerScore");
+let ties = document.querySelector(".ties")
+
+
